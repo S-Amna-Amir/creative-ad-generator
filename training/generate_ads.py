@@ -2,8 +2,8 @@ import pandas as pd
 from ad_generator import AdGenerator
 from quality_check import validity_score
 
-INPUT_PATH = "data/processed/prompts.csv"
-OUTPUT_PATH = "data/processed/generated_ads.csv"
+INPUT_PATH = "/opt/project/data/processed/prompts.csv"
+OUTPUT_PATH = "/opt/project/data/processed/generated_ads.csv"
 
 def main():
     df = pd.read_csv(INPUT_PATH)

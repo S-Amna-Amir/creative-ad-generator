@@ -1,7 +1,7 @@
 import pandas as pd
 
-INPUT_PATH = "data/processed/products_clean.csv"
-OUTPUT_PATH = "data/processed/prompts.csv"
+INPUT_PATH = "/opt/project/data/processed/products_clean.csv"
+OUTPUT_PATH = "/opt/project/data/processed/prompts.csv"
 
 def build_prompt(row):
     return (

@@ -5,3 +5,4 @@ __pycache__/
 .mlflow/
 airflow/logs/
 airflow/db/
+airflow/airflow_db/

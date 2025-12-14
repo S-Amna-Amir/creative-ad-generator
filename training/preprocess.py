@@ -1,8 +1,8 @@
 import pandas as pd
 import os
 
-RAW_DATA_PATH = "data/raw/products.csv"
-PROCESSED_DATA_PATH = "data/processed/products_clean.csv"
+RAW_DATA_PATH = "/opt/project/data/raw/products.csv"
+PROCESSED_DATA_PATH = "/opt/project/data/processed/products_clean.csv"
 
 def clean_text(text: str) -> str:
     return text.lower().strip()

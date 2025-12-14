@@ -4,8 +4,14 @@ from datetime import datetime
 import subprocess
 
 def run_preprocessing():
-    subprocess.run(["python", "training/preprocess.py"], check=True)
-    subprocess.run(["python", "training/prepare_prompts.py"], check=True)
+    subprocess.run(
+        ["python", "/opt/project/training/preprocess.py"],
+        check=True
+    )
+    subprocess.run(
+        ["python", "/opt/project/training/prepare_prompts.py"],
+        check=True
+    )
 
 with DAG(
     dag_id="product_data_ingestion",
@@ -18,5 +24,3 @@ with DAG(
         task_id="preprocess_product_data",
         python_callable=run_preprocessing
     )
-
-    preprocess_task
