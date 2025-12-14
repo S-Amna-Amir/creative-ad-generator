@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+.env
+.mlflow/
+airflow/logs/
+airflow/db/
