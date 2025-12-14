@@ -9,23 +9,6 @@ The pipeline performs the following tasks:
 4. Track metrics and artifacts: Use mlflow to log data metrics and processed files.
 This project is fully containerized using Docker and Docker compose
 
-## Directory Structure
-project-root/
-├─ dags/                     
-│  └─ data_ingestion_dag.py
-├─ training/                
-│  ├─ preprocess.py
-│  ├─ prepare_prompts.py
-│  └─ ad_generator.py
-├─ data/                     
-│  ├─ raw/products.csv
-│  └─ processed/
-├─ logs/                    
-├─ plugins/                  
-├─ airflow_db/              
-├─ docker-compose.yml
-└─ README.md
-
 ## Technology Stack
 Language: Python
 Model: Fine-tuned LLM 
@@ -98,6 +81,6 @@ docker run -p 8000:8000 ad-generator
 Since github actions for Mlops Classroom isn't working, here's the link to the personal repository where Github Actions is working:
 https://github.com/S-Amna-Amir/creative-ad-generator
 
-### Note: Due to storage issues, my ubuntu setup crashed a few hours ago, and I have not been able to get it back up again. Sadly, all screenshot and file proofs are unretrievable for the moment.
+#### Note: Due to storage issues, my ubuntu setup crashed a few hours ago, and I have not been able to get it back up again. Sadly, all screenshot and file proofs are unretrievable for the moment.
 
 
