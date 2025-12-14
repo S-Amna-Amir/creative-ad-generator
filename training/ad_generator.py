@@ -1,19 +1,28 @@
+import torch
 from transformers import pipeline
 
 class AdGenerator:
-    def __init__(self, model_name="google/flan-t5-small"):
+    def __init__(self):
         self.generator = pipeline(
-            task="text2text-generation",
-            model=model_name,
+            "text-generation",
+            model="gpt2",
             device=-1  # CPU only
         )
 
-    def generate_ad(self, prompt: str, max_length: int = 60) -> str:
-        result = self.generator(
-            prompt,
-            max_length=max_length,
-            do_sample=True,
-            temperature=0.9,
-            top_p=0.95
+    def generate(self, product_name: str, description: str) -> str:
+        prompt = (
+            f"Create a short, catchy social media ad for the following product.\n"
+            f"Product: {product_name}\n"
+            f"Description: {description}\n"
+            f"Ad:"
         )
-        return result[0]["generated_text"]
+
+        output = self.generator(
+            prompt,
+            max_length=80,
+            num_return_sequences=1,
+            do_sample=True,
+            temperature=0.9
+        )
+
+        return output[0]["generated_text"]

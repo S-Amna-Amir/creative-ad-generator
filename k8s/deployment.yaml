@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ad-generator
+  labels:
+    app: ad-generator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ad-generator
+  template:
+    metadata:
+      labels:
+        app: ad-generator
+    spec:
+      containers:
+      - name: ad-generator
+        image: amna723/ad-generator:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "500m"
+            memory: "1Gi"

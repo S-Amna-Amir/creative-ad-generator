@@ -1,50 +1,100 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import time
+import re
+
+from prometheus_client import (
+    Counter,
+    Histogram,
+    Gauge,
+    generate_latest,
+    CONTENT_TYPE_LATEST
+)
+from starlette.responses import Response
 
 from training.ad_generator import AdGenerator
-from training.quality_check import validity_score
 
-app = FastAPI(
-    title="E-Commerce Ad Creative Generator",
-    description="Generates marketing ad creatives using a lightweight LLM",
-    version="1.0"
-)
+app = FastAPI(title="Ad Creative Generator")
 
 generator = AdGenerator()
 
+# --------------------
+# Prometheus Metrics
+# --------------------
+
+REQUEST_COUNT = Counter(
+    "ad_requests_total",
+    "Total number of ad generation requests"
+)
+
+REQUEST_LATENCY = Histogram(
+    "ad_request_latency_seconds",
+    "Latency for ad generation"
+)
+
+THROUGHPUT = Gauge(
+    "ad_throughput",
+    "Requests per second"
+)
+
+CONTENT_VALIDITY = Gauge(
+    "ad_content_validity_score",
+    "Heuristic-based content quality score"
+)
+
+# --------------------
+# Request / Response
+# --------------------
+
 class AdRequest(BaseModel):
     product_name: str
-    category: str
     description: str
 
-
 class AdResponse(BaseModel):
-    generated_ad: str
-    quality_score: float
-    latency_ms: float
+    ad_text: str
 
-@app.post("/generate-ad", response_model=AdResponse)
-def generate_ad(request: AdRequest):
+# --------------------
+# Helper: Content Quality Score
+# --------------------
+
+def compute_validity_score(text: str) -> float:
+    """
+    Simple heuristic:
+    - Non-empty
+    - Contains CTA
+    - Reasonable length
+    """
+    score = 0.0
+
+    if len(text) > 20:
+        score += 0.4
+    if re.search(r"(buy|shop|order|discover|limited)", text.lower()):
+        score += 0.3
+    if len(text.split()) < 80:
+        score += 0.3
+
+    return min(score, 1.0)
+
+# --------------------
+# API Endpoints
+# --------------------
+
+@app.post("/generate_ad", response_model=AdResponse)
+def generate_ad(req: AdRequest):
     start_time = time.time()
+    REQUEST_COUNT.inc()
 
-    prompt = (
-        f"Generate a short promotional ad for the following product:\n"
-        f"Product: {request.product_name}\n"
-        f"Category: {request.category}\n"
-        f"Description: {request.description}"
-    )
+    ad_text = generator.generate(req.product_name, req.description)
 
-    ad_text = generator.generate_ad(prompt)
-    score = validity_score(ad_text)
+    latency = time.time() - start_time
+    REQUEST_LATENCY.observe(latency)
+    THROUGHPUT.set(1 / latency if latency > 0 else 0)
 
-    latency = (time.time() - start_time) * 1000
+    validity_score = compute_validity_score(ad_text)
+    CONTENT_VALIDITY.set(validity_score)
 
-    return AdResponse(
-        generated_ad=ad_text,
-        quality_score=score,
-        latency_ms=round(latency, 2)
-    )
+    return {"ad_text": ad_text}
 
-
-
+@app.get("/metrics")
+def metrics():
+    return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
