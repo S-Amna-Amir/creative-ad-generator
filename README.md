@@ -27,3 +27,10 @@ Training, MlFlow, and Airflow run in containerized environments
 - Prompt construction for generative model
 - Airflow DAG orchestrates ingestion and preprocessing
 - Clean data stored in `data/processed/`
+
+## Ad Generation
+
+- Uses a lightweight pretrained LLM (Flan-T5 Small)
+- CPU-only inference
+- Generates social-media-ready promotional text
+- Includes heuristic content quality scoring
