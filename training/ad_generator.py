@@ -1,28 +1,41 @@
 import torch
+import mlflow
 from transformers import pipeline
+import os
+
+
+mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI", "http://mlflow:5000"))
+mlflow.set_experiment("ad_generation")
+
 
 class AdGenerator:
-    def __init__(self):
-        self.generator = pipeline(
-            "text-generation",
-            model="gpt2",
-            device=-1  # CPU only
-        )
+def __init__(self):
+with mlflow.start_run(run_name="load_model"):
+self.generator = pipeline(
+"text-generation",
+model="gpt2",
+device=-1
+)
+mlflow.log_param("model", "gpt2")
 
-    def generate(self, product_name: str, description: str) -> str:
-        prompt = (
-            f"Create a short, catchy social media ad for the following product.\n"
-            f"Product: {product_name}\n"
-            f"Description: {description}\n"
-            f"Ad:"
-        )
 
-        output = self.generator(
-            prompt,
-            max_length=80,
-            num_return_sequences=1,
-            do_sample=True,
-            temperature=0.9
-        )
+def generate(self, product_name: str, description: str) -> str:
+prompt = (
+f"Create a short, catchy social media ad.\n"
+f"Product: {product_name}\n"
+f"Description: {description}\n"
+f"Ad:"
+)
 
-        return output[0]["generated_text"]
+
+with mlflow.start_run(run_name="generate_ad", nested=True):
+output = self.generator(
+prompt,
+max_length=80,
+temperature=0.9,
+do_sample=True
+)
+mlflow.log_metric("output_length", len(output[0]["generated_text"]))
+
+
+return output[0]["generated_text"]

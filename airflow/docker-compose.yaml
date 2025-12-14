@@ -1,3 +1,4 @@
+
 version: "3.3"
 
 services:
@@ -10,12 +11,15 @@ services:
       AIRFLOW__CORE__EXECUTOR: SequentialExecutor
       AIRFLOW__CORE__LOAD_EXAMPLES: "False"
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////opt/airflow/airflow.db
+      MLFLOW_TRACKING_URI: http://mlflow:5000
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
       - ../training:/opt/project/training
+      - ../data:/opt/project/data
       - ./airflow_db:/opt/airflow
+      - ./mlruns:/mlruns
     ports:
       - "8080:8080"
     command: webserver
@@ -28,6 +32,7 @@ services:
     environment:
       AIRFLOW__CORE__EXECUTOR: SequentialExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////opt/airflow/airflow.db
+      MLFLOW_TRACKING_URI: http://mlflow:5000
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
@@ -35,4 +40,21 @@ services:
       - ../training:/opt/project/training
       - ../data:/opt/project/data
       - ./airflow_db:/opt/airflow
+      - ./mlruns:/mlruns
     command: scheduler
+
+  mlflow:
+    image: python:3.10-slim
+    container_name: mlflow
+    command: >
+      sh -c "pip install mlflow && \
+             mlflow server \
+             --backend-store-uri sqlite:///mlflow.db \
+             --default-artifact-root /mlruns \
+             --host 0.0.0.0 \
+             --port 5000"
+    volumes:
+      - ./mlruns:/mlruns
+    ports:
+      - "5000:5000"
+
