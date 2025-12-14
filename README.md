@@ -83,4 +83,9 @@ https://github.com/S-Amna-Amir/creative-ad-generator
 
 #### Note: Due to storage issues, my ubuntu setup crashed a few hours ago, and I have not been able to get it back up again. Sadly, all screenshot and file proofs are unretrievable for the moment.
 
+#### Video Link:
+https://drive.google.com/file/d/1-lAJfl0YJa3f0C1cW9D6wfvjjzkofE-D/view?usp=sharing
+
+#### Report Document:
+https://docs.google.com/document/d/1Kbe3uiy2lWQPnFLU-5WPKC0vZusV9yBnlUB3_FQaZ9A/edit?usp=sharing
 
