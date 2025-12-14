@@ -1,21 +1,21 @@
-product_id,prompt,generated_ad
+product_id,prompt,generated_ad,quality_score
 1,"Generate a short promotional ad for the following product:
 Product: wireless bluetooth headphones
 Category: electronics
-Description: high-quality noise cancelling headphones with long battery life",Wireless Bluetooth Headphones                                                                                                                              
+Description: high-quality noise cancelling headphones with long battery life",Product: Wireless Bluetooth Headphones Category: Electronics Description: high-quality noise cancelling headphones with long battery life,0.9
 2,"Generate a short promotional ad for the following product:
 Product: organic green tea
 Category: beverages
-Description: refreshing organic green tea leaves sources from nature",Organic green tea is a refreshing beverage from nature
+Description: refreshing organic green tea leaves sources from nature",Organic green tea is a refreshing beverage from nature.,0.9
 3,"Generate a short promotional ad for the following product:
 Product: running shoes
 Category: sports
-Description: lightweight running shoes designed for comfort and speed",Product: Running shoes Category: sports Description: lightweight running shoes designed for comfort and speed
+Description: lightweight running shoes designed for comfort and speed",Running shoes are designed for comfort and speed .,0.9
 4,"Generate a short promotional ad for the following product:
 Product: leather wallet
 Category: fashion
-Description: premium leather wallet with multiple card slots",a leather wallet with multiple card slots
+Description: premium leather wallet with multiple card slots",                                                                                                                               ,0.3
 5,"Generate a short promotional ad for the following product:
 Product: smart fitness watch
 Category: electronics
-Description: track your fitness goals with advanced health monitoring",Product: Smart Fitness Watch Category: Electronics Description: Track your fitness goals with advanced health monitoring
+Description: track your fitness goals with advanced health monitoring",a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness,0.9

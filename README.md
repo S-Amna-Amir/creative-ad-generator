@@ -34,3 +34,10 @@ Training, MlFlow, and Airflow run in containerized environments
 - CPU-only inference
 - Generates social-media-ready promotional text
 - Includes heuristic content quality scoring
+
+## Model Inference API
+
+- REST API built using FastAPI
+- Endpoint: POST /generate-ad
+- Returns generated ad text, quality score, and latency
+- Swagger UI available at /docs
