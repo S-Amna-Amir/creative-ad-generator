@@ -54,4 +54,10 @@ Training, MlFlow, and Airflow run in containerized environments
 ```bash
 docker build -t ad-generator .
 docker run -p 8000:8000 ad-generator
+```
+
+## GitHub Actions
+Since github actions for Mlops Classroom isn't working, here's the link to the personal repository where Github Actions is working:
+https://github.com/S-Amna-Amir/creative-ad-generator
+
 

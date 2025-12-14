@@ -3,7 +3,10 @@ version: "3.3"
 
 services:
   airflow-web:
-    image: apache/airflow:2.9.3
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    image: airflow-mlflow:2.9.3
     container_name: airflow-web
     restart: always
     user: "50000:0"
@@ -25,7 +28,10 @@ services:
     command: webserver
 
   airflow-scheduler:
-    image: apache/airflow:2.9.3
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    image: airflow-mlflow:2.9.3
     container_name: airflow-scheduler
     restart: always
     user: "50000:0"

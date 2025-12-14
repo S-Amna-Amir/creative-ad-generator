@@ -1,0 +1,11 @@
+FROM apache/airflow:2.9.3
+
+USER root
+
+# Install MLflow (and anything else you need for DAGs)
+RUN pip install --no-cache-dir \
+    mlflow \
+    pandas \
+    scikit-learn
+
+USER airflow
