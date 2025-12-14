@@ -5,3 +5,6 @@ __pycache__/
 data/
 *.pyc
 *.log
+airflow/airflow_db
+airflow/logs
+airflow/plugins

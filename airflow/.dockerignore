@@ -1,0 +1,8 @@
+# Airflow runtime state (never build this)
+airflow_db/
+logs/
+plugins/
+
+# Python junk
+__pycache__/
+*.pyc
