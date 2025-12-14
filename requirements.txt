@@ -1,5 +1,5 @@
 # Core
-numpy
+numpy<2
 pandas
 
 # NLP
@@ -18,3 +18,7 @@ prometheus-client
 pydantic
 python-dotenv
 requests
+
+torch==2.2.2+cpu
+-f https://download.pytorch.org/whl/cpu/torch_stable.html
+pandas

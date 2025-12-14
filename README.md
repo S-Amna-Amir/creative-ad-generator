@@ -41,3 +41,17 @@ Training, MlFlow, and Airflow run in containerized environments
 - Endpoint: POST /generate-ad
 - Returns generated ad text, quality score, and latency
 - Swagger UI available at /docs
+
+## Sample input
+{
+  "product_name": "Wireless Bluetooth Headphones",
+  "category": "Electronics",
+  "description": "High-quality noise cancelling headphones with long battery life"
+}
+
+## Docker Deployment
+
+```bash
+docker build -t ad-generator .
+docker run -p 8000:8000 ad-generator
+
