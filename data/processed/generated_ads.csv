@@ -1,21 +1,8 @@
-product_id,prompt,generated_ad,quality_score
-1,"Generate a short promotional ad for the following product:
-Product: wireless bluetooth headphones
-Category: electronics
-Description: high-quality noise cancelling headphones with long battery life",Product: Wireless Bluetooth Headphones Category: Electronics Description: high-quality noise cancelling headphones with long battery life,0.9
-2,"Generate a short promotional ad for the following product:
-Product: organic green tea
-Category: beverages
-Description: refreshing organic green tea leaves sources from nature",Organic green tea is a refreshing beverage from nature.,0.9
-3,"Generate a short promotional ad for the following product:
-Product: running shoes
-Category: sports
-Description: lightweight running shoes designed for comfort and speed",Running shoes are designed for comfort and speed .,0.9
-4,"Generate a short promotional ad for the following product:
-Product: leather wallet
-Category: fashion
-Description: premium leather wallet with multiple card slots",                                                                                                                               ,0.3
-5,"Generate a short promotional ad for the following product:
-Product: smart fitness watch
-Category: electronics
-Description: track your fitness goals with advanced health monitoring",a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness watch - a smart fitness,0.9
+prompt,generated_ad,quality_score
+Create an ad for wireless bluetooth headphones: high-quality noise cancelling headphones with long battery life,                                                                                                                               ,0.3
+Create an ad for organic green tea: refreshing organic green tea leaves sources from nature,a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a teddy bear ad for a ,0.9
+Create an ad for running shoes: lightweight running shoes designed for comfort and speed,. i 'm not sure if i 'm gonna be able to get a copy of this ad or i 'm not sure if i 'm gonna be able to get a copy of this ad or i 'm not sure if i 'm gonna be able to get a copy of this ad or i 'm not sure if i 'm gonna be able to get a copy of this ad or i 'm not sure if i 'm gonna be able to get a copy of this ad or i 'm not sure if i 'm gonna be able to get a copy of this ad or i 'm not sure if i 'm gonna be able to get a copy of this ad or i 'm not sure if i 'm gonna be able to get a copy of this ad or i 'm not sure if i 'm,0.9
+Create an ad for leather wallet: premium leather wallet with multiple card slots,a poster for a tv show .,0.9
+Create an ad for smart fitness watch: track your fitness goals with advanced health monitoring,"i'm not sure if i'll be able to get a t-shirt , but i'm sure i'll be able to get a t-shirt if i'm able to get a t-shirt , but i'm not sure i'll be able to get a t-shirt if i'm able to get a t-shirt , but i'll be able to get a t-shirt if i'm able to get a t-shirt , but i'll be able to get a t-shirt if i'm able to get a t-shirt , but i'll be able to get a t-shirt if i'm able to get a t-shirt , but i'll be able to get a t-shirt if i'm able to get a t-shirt , but i'll be able to get a t-shirt",0.9
+Create an ad for smart mobile phone: metallic phone case with newest phone applications,. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .,0.3
+Create an ad for mango: refreshingly cold sweet and organic fruit,a poster for the tv show .,0.9

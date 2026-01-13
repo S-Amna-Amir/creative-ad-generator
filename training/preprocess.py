@@ -2,8 +2,11 @@ import pandas as pd
 import os
 from pathlib import Path
 
-RAW_DATA_PATH = "/opt/project/data/raw/products.csv"
-PROCESSED_DATA_PATH = "/opt/project/data/processed/products_clean.csv"
+BASE_DATA_PATH = os.getenv("DATA_ROOT", "data")
+
+RAW_DATA_PATH = f"{BASE_DATA_PATH}/raw/products.csv"
+PROCESSED_DATA_PATH = f"{BASE_DATA_PATH}/processed/products_clean.csv"
+
 
 
 def clean_text(text: str) -> str:
@@ -11,17 +14,18 @@ def clean_text(text: str) -> str:
 
 
 def preprocess():
-    # ⬇️ IMPORTS MUST BE INSIDE FUNCTION
     import mlflow
 
     mlflow.set_tracking_uri(
-        os.getenv("MLFLOW_TRACKING_URI", "http://mlflow:5000")
+        os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
     )
+    mlflow.set_registry_uri(os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000"))
     mlflow.set_experiment("product_data_pipeline")
 
     Path(PROCESSED_DATA_PATH).parent.mkdir(parents=True, exist_ok=True)
 
     with mlflow.start_run(run_name="preprocess_products"):
+        mlflow.log_param("text_cleaning", "lowercase + strip")
         df = pd.read_csv(RAW_DATA_PATH)
 
         df["product_name"] = df["product_name"].apply(clean_text)
@@ -32,7 +36,10 @@ def preprocess():
 
         mlflow.log_metric("num_rows", len(df))
         mlflow.log_metric("num_columns", len(df.columns))
-        mlflow.log_artifact(PROCESSED_DATA_PATH)
+        mlflow.log_artifact(
+            PROCESSED_DATA_PATH,
+            artifact_path="processed_data"
+        )
 
 
 if __name__ == "__main__":

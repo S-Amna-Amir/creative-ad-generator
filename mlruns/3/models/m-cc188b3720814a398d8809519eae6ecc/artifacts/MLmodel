@@ -1,0 +1,19 @@
+artifact_path: /home/samnaamir/e-commerce-ad-creative-generator-S-Amna-Amir/mlruns/3/models/m-cc188b3720814a398d8809519eae6ecc/artifacts
+flavors:
+  python_function:
+    cloudpickle_version: 3.1.2
+    code: null
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.pyfunc.model
+    python_model: python_model.pkl
+    python_version: 3.10.12
+    streamable: false
+mlflow_version: 3.8.1
+model_id: m-cc188b3720814a398d8809519eae6ecc
+model_size_bytes: 2116
+model_uuid: m-cc188b3720814a398d8809519eae6ecc
+prompts: null
+run_id: 28e7f721948a4be58a2f19fa1d35d53f
+utc_time_created: '2026-01-13 00:44:51.885745'

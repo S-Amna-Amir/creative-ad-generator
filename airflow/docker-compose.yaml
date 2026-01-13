@@ -1,7 +1,27 @@
-
-version: "3.3"
+version: "3.8"
 
 services:
+  mlflow:
+    image: python:3.10-slim
+    container_name: mlflow
+    command: >
+      sh -c "pip install mlflow && \
+             mlflow server \
+             --backend-store-uri sqlite:////mlflow/mlflow.db \
+             --default-artifact-root /mlruns \
+             --host 0.0.0.0 \
+             --port 5000"
+    volumes:
+      - ./mlruns:/mlruns
+      - ./mlflow_db:/mlflow
+    ports:
+      - "5000:5000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   airflow-web:
     build:
       context: .
@@ -10,57 +30,45 @@ services:
     container_name: airflow-web
     restart: always
     user: "50000:0"
+    depends_on:
+      mlflow:
+        condition: service_healthy
     environment:
       AIRFLOW__CORE__EXECUTOR: SequentialExecutor
-      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////opt/airflow/airflow.db
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
       MLFLOW_TRACKING_URI: http://mlflow:5000
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
+      - ./airflow_db:/opt/airflow
       - ../training:/opt/project/training
       - ../data:/opt/project/data
-      - ./airflow_db:/opt/airflow
       - ./mlruns:/mlruns
     ports:
       - "8080:8080"
     command: webserver
 
   airflow-scheduler:
-    build:
-      context: .
-      dockerfile: Dockerfile.airflow
     image: airflow-mlflow:2.9.3
     container_name: airflow-scheduler
     restart: always
     user: "50000:0"
+    depends_on:
+      mlflow:
+        condition: service_healthy
     environment:
       AIRFLOW__CORE__EXECUTOR: SequentialExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////opt/airflow/airflow.db
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
       MLFLOW_TRACKING_URI: http://mlflow:5000
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
+      - ./airflow_db:/opt/airflow
       - ../training:/opt/project/training
       - ../data:/opt/project/data
-      - ./airflow_db:/opt/airflow
       - ./mlruns:/mlruns
     command: scheduler
-
-  mlflow:
-    image: python:3.10-slim
-    container_name: mlflow
-    command: >
-      sh -c "pip install mlflow && \
-             mlflow server \
-             --backend-store-uri sqlite:///mlflow.db \
-             --default-artifact-root /mlruns \
-             --host 0.0.0.0 \
-             --port 5000"
-    volumes:
-      - ./mlruns:/mlruns
-    ports:
-      - "5000:5000"
-

@@ -1,0 +1,101 @@
+services:
+  mlflow:
+    image: python:3.10-slim
+    container_name: mlflow
+    command: >
+      bash -c "pip install mlflow && mlflow server --backend-store-uri sqlite:////mlflow/mlflow.db --default-artifact-root /mlruns --host 0.0.0.0 --port 5000 --workers 1 --allowed-hosts '*' --cors-allowed-origins '*'"
+    volumes:
+      - ./mlflow.db:/mlflow/mlflow.db
+      - ./mlruns:/mlruns
+    ports:
+      - '5000:5000'
+  inference-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: ad-inference
+    depends_on:
+      - mlflow
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+    ports:
+      - "8000:8000"
+
+  airflow-webb:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    image: airflow-mlflow:2.9.3
+    container_name: airflow-webb
+    restart: always
+    user: "50000:0"
+    depends_on:
+      - mlflow
+    environment:
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////opt/airflow/airflow.db
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      DATA_ROOT: /opt/project/data
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+      - ./airflow/airflow_db:/opt/airflow
+      - ./training:/opt/project/training
+      - ./data:/opt/project/data
+      - ./mlruns:/mlruns
+    ports:
+      - "8080:8080"
+    command: webserver
+
+  airflow-schedulerr:
+    image: airflow-mlflow:2.9.3
+    container_name: airflow-schedulerr
+    restart: always
+    user: "50000:0"
+    depends_on:
+      - mlflow
+    environment:
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////opt/airflow/airflow.db
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      DATA_ROOT: /opt/project/data
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+      - ./airflow/airflow_db:/opt/airflow
+      - ./training:/opt/project/training
+      - ./data:/opt/project/data
+      - ./mlruns:/mlruns
+    command: scheduler
+  
+  prometheus:
+    image: prom/prometheus:v2.49.1
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    ports:
+      - "9090:9090"
+    depends_on:
+      - inference-api
+
+  grafana:
+    image: grafana/grafana:10.3.1
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana-data:/var/lib/grafana
+
+volumes:
+  grafana-data:
+
+
+

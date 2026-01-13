@@ -32,18 +32,13 @@ REQUEST_LATENCY = Histogram(
     "Latency for ad generation"
 )
 
-THROUGHPUT = Gauge(
-    "ad_throughput",
-    "Requests per second"
-)
-
 CONTENT_VALIDITY = Gauge(
     "ad_content_validity_score",
     "Heuristic-based content quality score"
 )
 
 # --------------------
-# Request / Response
+# Schemas
 # --------------------
 
 class AdRequest(BaseModel):
@@ -54,30 +49,30 @@ class AdResponse(BaseModel):
     ad_text: str
 
 # --------------------
-# Helper: Content Quality Score
+# Helpers
 # --------------------
 
 def compute_validity_score(text: str) -> float:
-    """
-    Simple heuristic:
-    - Non-empty
-    - Contains CTA
-    - Reasonable length
-    """
     score = 0.0
-
     if len(text) > 20:
         score += 0.4
     if re.search(r"(buy|shop|order|discover|limited)", text.lower()):
         score += 0.3
     if len(text.split()) < 80:
         score += 0.3
-
     return min(score, 1.0)
 
 # --------------------
-# API Endpoints
+# Endpoints
 # --------------------
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+@app.get("/ready")
+def ready():
+    return {"ready": True}
 
 @app.post("/generate_ad", response_model=AdResponse)
 def generate_ad(req: AdRequest):
@@ -88,10 +83,8 @@ def generate_ad(req: AdRequest):
 
     latency = time.time() - start_time
     REQUEST_LATENCY.observe(latency)
-    THROUGHPUT.set(1 / latency if latency > 0 else 0)
 
-    validity_score = compute_validity_score(ad_text)
-    CONTENT_VALIDITY.set(validity_score)
+    CONTENT_VALIDITY.set(compute_validity_score(ad_text))
 
     return {"ad_text": ad_text}
 
